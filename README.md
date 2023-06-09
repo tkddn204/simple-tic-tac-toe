@@ -6,5 +6,5 @@
 
 ## Todo
 
-[] add history things
-[] upgrade to redux-toolkit
+- [ ] add history things
+- [ ] upgrade to redux-toolkit
