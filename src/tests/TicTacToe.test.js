@@ -1,4 +1,4 @@
-import { calculateWinner } from "../components/Game";
+import { calculateWinner } from "../controllers/TicTacToe";
 
 test("우승자가 없어야 함", () => {
   const size = { x: 3, y: 3 };

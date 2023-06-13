@@ -7,14 +7,40 @@ export default function Game() {
     x: 3,
     y: 3
   };
-  const [turn, setTurn] = useState("X");
   const [history, setHistory] = useState([Array(size.x * size.y).fill(null)]);
-  const currentSquares = history[history.length - 1];
+  const [currentMove, setCurrentMove] = useState(0);
+  const turn = currentMove % 2 === 1 ? "O" : "X";
+  const currentSquares = history[currentMove];
+
+  function resetGame() {
+    setHistory([Array(size.x * size.y).fill(null)]);
+    setCurrentMove(0);
+  }
 
   function handlePlay(nextSquares) {
-    setHistory([...history, nextSquares]);
-    setTurn(turn === "X" ? "O" : "X");
+    const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
+    setHistory(nextHistory);
+    setCurrentMove(nextHistory.length - 1);
   }
+
+  function jumpTo(nextMove) {
+    setCurrentMove(nextMove);
+  }
+
+  const moves = history.map((squares, move) => {
+    let description;
+    if (move > 0) {
+      description = `Go to move #${move}`;
+    } else {
+      description = `Go to game start`;
+    }
+
+    return (
+      <li key={move}>
+        <button onClick={() => jumpTo(move)}>{description}</button>
+      </li>
+    );
+  });
 
   return (
     <div className="game">
@@ -36,6 +62,10 @@ export default function Game() {
             turn
           }}
         />
+        <ol>{moves}</ol>
+      </div>
+      <div className="game-button">
+        <button onClick={resetGame}>Reset</button>
       </div>
     </div>
   );
