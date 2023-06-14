@@ -6,6 +6,8 @@
 
 ## Todo
 
-- [ ] add game page test
+- [ ] tests
+  - [ ] game react component test
+  - [x] game reducer test
 - [x] upgrade to redux-toolkit
 - [x] add history things

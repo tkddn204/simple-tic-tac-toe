@@ -16,7 +16,7 @@ export default function Game() {
   }
 
   function jumpTo(nextMove) {
-    dispatch(setCurrentMove({ currentMove: nextMove }));
+    dispatch(setCurrentMove(nextMove));
   }
 
   const moves = history.map((squares, move) => {

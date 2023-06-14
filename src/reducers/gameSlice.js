@@ -1,16 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+export const initialState = {
+  currentMove: 0,
+  history: [Array(9).fill(null)],
+  size: {
+    x: 3,
+    y: 3
+  },
+  turn: "X"
+};
+
 export const gameSlice = createSlice({
   name: "game",
-  initialState: {
-    currentMove: 0,
-    history: [Array(9).fill(null)],
-    size: {
-      x: 3,
-      y: 3
-    },
-    turn: "X"
-  },
+  initialState,
   reducers: {
     resetGame: state => {
       state.history = [Array(state.size.x * state.size.y).fill(null)];
@@ -24,7 +26,7 @@ export const gameSlice = createSlice({
       state.turn = state.currentMove % 2 ? "O" : "X";
     },
     setCurrentMove: (state, action) => {
-      const currentMove = action.payload.currentMove;
+      const currentMove = action.payload;
       state.currentMove = currentMove;
       state.turn = state.currentMove % 2 ? "O" : "X";
     }

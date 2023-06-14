@@ -1,6 +1,6 @@
-import { render, screen } from "@testing-library/react";
 import App from "../App";
+import { renderWithProviders } from "../setupTests";
 
 test("renders learn react link", () => {
-  render(<App />);
+  renderWithProviders(<App />);
 });
