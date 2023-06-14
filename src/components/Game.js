@@ -1,30 +1,22 @@
-import React, { useState } from "react";
+import React from "react";
 import Board from "./Board";
 import GameInfo from "./GameInfo";
+import { useDispatch, useSelector } from "react-redux";
+import { resetGame, nextMove, setCurrentMove } from "../reducers/gameSlice";
 
 export default function Game() {
-  const size = {
-    x: 3,
-    y: 3
-  };
-  const [history, setHistory] = useState([Array(size.x * size.y).fill(null)]);
-  const [currentMove, setCurrentMove] = useState(0);
-  const turn = currentMove % 2 === 1 ? "O" : "X";
-  const currentSquares = history[currentMove];
+  const { currentMove, history, size, turn } = useSelector(state => state.game);
+  const dispatch = useDispatch();
 
-  function resetGame() {
-    setHistory([Array(size.x * size.y).fill(null)]);
-    setCurrentMove(0);
-  }
+  const currentSquares = history[currentMove];
 
   function handlePlay(nextSquares) {
     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
-    setHistory(nextHistory);
-    setCurrentMove(nextHistory.length - 1);
+    dispatch(nextMove({ history: nextHistory }));
   }
 
   function jumpTo(nextMove) {
-    setCurrentMove(nextMove);
+    dispatch(setCurrentMove({ currentMove: nextMove }));
   }
 
   const moves = history.map((squares, move) => {
@@ -36,7 +28,7 @@ export default function Game() {
     }
 
     return (
-      <li key={move}>
+      <li key={`move${move}`}>
         <button onClick={() => jumpTo(move)}>{description}</button>
       </li>
     );
@@ -65,7 +57,7 @@ export default function Game() {
         <ol>{moves}</ol>
       </div>
       <div className="game-button">
-        <button onClick={resetGame}>Reset</button>
+        <button onClick={() => dispatch(resetGame())}>Reset</button>
       </div>
     </div>
   );
