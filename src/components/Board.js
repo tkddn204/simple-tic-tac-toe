@@ -1,15 +1,18 @@
 import Square from "./Square";
 import { calculateWinner } from "../controllers/TicTacToe";
+import { useCallback } from "react";
 
 export default function Board({ gameStatus, onPlay }) {
   const { size, turn, squares } = gameStatus;
-
-  function handleClick(idx) {
-    if (squares[idx] || calculateWinner(size, squares)) return;
-    const nextSquares = squares.slice();
-    nextSquares[idx] = turn;
-    onPlay(nextSquares);
-  }
+  const handleClick = useCallback(
+    idx => {
+      if (squares[idx] || calculateWinner(size, squares)) return;
+      const nextSquares = squares.slice();
+      nextSquares[idx] = turn;
+      onPlay(nextSquares);
+    },
+    [onPlay, size, turn, squares]
+  );
 
   return (
     <>
